@@ -130,3 +130,6 @@ dmypy.json
 
 # Chrome Webdriver EXE file
 chromedriver.exe
+
+#Exclude config file
+config.json
