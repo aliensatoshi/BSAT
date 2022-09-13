@@ -1,4 +1,5 @@
 {
     "username": "example@example.com",
-    "password": "EX4MPL3P455W0RD"
+    "password": "EX4MPL3P455W0RD",
+    "school_url_prefix": "example"
 }
