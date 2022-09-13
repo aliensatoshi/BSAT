@@ -1,14 +1,18 @@
-# Blackbaud Student API
+# BSAT
+## Blackbaud Student Account Terminal
 
-This project is a Python library of functions allowing you to interact with Blackbaud with Selenium webdriver and a little bit of requests. This is one of my "first" public projects I have made.
+This project is a Blackbaud Student tool to let you interact with Blackbaud with Selenium with CLI interfaces, a Discord bot, and website. If your school or institution uses Blackbaud, this is a must-fork!
 
-# For context
+# How it works!
 
-For context of a lot of web requests, I love to use Burp Suite not to pentest websites, but to do simple automation. I'm not super efficent, but yeah
+- We use Selenium to open up your school's portal page.
+- We input your username + password for you
+- We login to Microsoft and/or Google to allow SSO to be automated
+- We scrape information from your home page
+- We archive and store all of that information locally
+- You interact with the data via CLI, Discord, or a website (all self hosted!)
 
-# "Breakthroughs"
+# Security
 
-- The AuthSvcToken cookie holds the "login key" allowing us to login automatically
-- An old AuthSvcToken cookie can be used to generate a new one (after you edit the cookie, Blackbaud automatically updates it to a new one without signing you out)
-- Deleting the AuthSvcToken invalidates the session and it generates a whole new session
-- AuthSvcToken is valid for the entire session
+- We don't store any information (logins, cookies, etc)
+- Self hosted and you manage everything
