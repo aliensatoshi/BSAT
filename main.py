@@ -6,14 +6,17 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time
 
+username = "YOUREMAIL"
+password = "YOURPASS"
+
 driver = webdriver.Chrome()
 driver.get("https://stjohnsprep.myschoolapp.com/app#login")
 time.sleep(2)
-driver.find_element(By.XPATH, '//*[@id="Username"]').send_keys("ahonor25@stjohnsprep.org" + Keys.ENTER)
+driver.find_element(By.XPATH, '//*[@id="Username"]').send_keys(username + Keys.ENTER)
 time.sleep(4)
-driver.find_element(By.XPATH, '//*[@id="i0116"]').send_keys("ahonor25@stjohnsprep.org" + Keys.ENTER)
+driver.find_element(By.XPATH, '//*[@id="i0116"]').send_keys(username + Keys.ENTER)
 time.sleep(1)
-driver.find_element(By.XPATH, '//*[@id="i0118"]').send_keys("realGarf1eld!?" + Keys.ENTER)
+driver.find_element(By.XPATH, '//*[@id="i0118"]').send_keys(password + Keys.ENTER)
 time.sleep(2)
 driver.find_element(By.XPATH, '//*[@id="idBtn_Back"]').click()
 time.sleep(10)
