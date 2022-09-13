@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time
 
-driver = webdriver.Firefox()
+driver = webdriver.Chrome()
 driver.get("https://stjohnsprep.myschoolapp.com/app#login")
 time.sleep(2)
 driver.find_element(By.XPATH, '//*[@id="Username"]').send_keys("ahonor25@stjohnsprep.org" + Keys.ENTER)
