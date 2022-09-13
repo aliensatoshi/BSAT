@@ -133,3 +133,6 @@ chromedriver.exe
 
 #Exclude config file
 config.json
+
+#Exclude random_id file
+random_id.txt

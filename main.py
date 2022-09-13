@@ -13,10 +13,8 @@ import chromedriver_autoinstaller
 #import other helpful libraries
 import time
 import json
-
-#import os for system and name for clearing and determining what os is being used
 import os
-from os import system, name
+import random
 
 chromedriver_autoinstaller.install()
 
@@ -36,7 +34,7 @@ def login():
     school_url_prefix = data['school_url_prefix']
 
     driver.get(f"https://{school_url_prefix}.myschoolapp.com/app#login")
-    clear()
+    os.system("cls")
     time.sleep(2)
     driver.find_element(By.XPATH, '//*[@id="Username"]').send_keys(username + Keys.ENTER) #Enter username on Blackbaud email login page
     time.sleep(3)
@@ -50,9 +48,9 @@ def login():
     
     #if url variable contains speedbump
     if "speedbump" in url:
-        alert("Google Speedbump Detected!")
+        print("Google Speedbump Detected!")
         driver.find_element(By.XPATH, '//*[@id="view_container"]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span').click() #Click "This is me" on Google Speedbump page
-        notice("Google Speedbump Bypassed!")
+        print("Google Speedbump Bypassed!")
 
 
 def scrapeData():
@@ -63,12 +61,84 @@ def scrapeData():
     day = day[0]
     #convert the string to an integer
     day = int(day)
-    print(day)
+    
+    table_id = driver.find_element(By.XPATH, '//*[@id="accordionSchedules"]')
+    rows = table_id.find_elements(By.TAG_NAME, "tr") # get all of the rows in the table
 
-    print("Scraped Data:")
+    #generate a random number between 1 and 9999999999999999999
+    random_id = random.randint(1, 9999999999999999999)
+
+    #open usedids.txt file
+    usedids = open("usedids.txt", "r")
+    #if random_id is in usedids.txt
+    if str(random_id) in usedids.read():
+        #repeat the process of generating a random number until it is not in usedids.txt
+        while str(random_id) in usedids.read():
+            random_id = random.randint(1, 9999999999999999999)
+    #add the random_id to usedids.txt
+    usedids = open("usedids.txt", "a")
+    usedids.write(str(random_id) + "\n")
+    #close usedids.txt file
+    usedids.close()
+
+    #create a new file called schedule.json
+    with open(f'schedule-{random_id}.json', 'w') as f:
+        #create a new array
+        schedule = []
+        id = -1
+        for row in rows: 
+            id = id+1
+
+            #create a new dictionary in the schedule array
+            schedule.append({})
+
+            # get all the columns with data-heading attribute value as 'Time'    
+            time_list = row.find_elements(By.XPATH, ".//td[@data-heading='Time']")
+            #col = row.find_elements(By.TAG_NAME, "td")[1] #note: index start from 0, 1 is col 2
+            for date_and_time in time_list:
+                print(date_and_time.text)
+                schedule[id]['time'] = date_and_time.text
+
+            # get all the columns with data-heading attribute value as 'Block'    
+            block_list = row.find_elements(By.XPATH, ".//td[@data-heading='Block']")
+            #col = row.find_elements(By.TAG_NAME, "td")[1] #note: index start from 0, 1 is col 2
+            for block in block_list:
+                print(block.text)
+                schedule[id]['block'] = block.text
+
+            # get all the columns with data-heading attribute value as 'Activity'    
+            activity_list = row.find_elements(By.XPATH, ".//td[@data-heading='Activity']")
+            #col = row.find_elements(By.TAG_NAME, "td")[1] #note: index start from 0, 1 is col 2
+            for activity in activity_list:
+                print(activity.text)
+                schedule[id]['activity'] = activity.text
+
+            # get all the columns with data-heading attribute value as 'Contact'    
+            contact_list = row.find_elements(By.XPATH, ".//td[@data-heading='Contact']")
+            #col = row.find_elements(By.TAG_NAME, "td")[1] #note: index start from 0, 1 is col 2
+            for contact in contact_list:
+                print(contact.text)
+                schedule[id]['contact'] = contact.text
+
+            # get all the columns with data-heading attribute value as 'Details'    
+            details_list = row.find_elements(By.XPATH, ".//td[@data-heading='Details']")
+            #col = row.find_elements(By.TAG_NAME, "td")[1] #note: index start from 0, 1 is col 2
+            for details in details_list:
+                print(details.text)
+                schedule[id]['details'] = details.text
+
+            # get all the columns with data-heading attribute value as 'Attendance'    
+            att_list = row.find_elements(By.XPATH, ".//td[@data-heading='Attendance']")
+            #col = row.find_elements(By.TAG_NAME, "td")[1] #note: index start from 0, 1 is col 2
+            for att in att_list:
+                print(att.text)
+                schedule[id]['attendance'] = att.text
+
+        #write the schedule array to the schedule.json file
+        json.dump(schedule, f, indent=4)
 
 login()
-time.sleep(5)
+time.sleep(5.5)
 scrapeData()
 
 #items = []
