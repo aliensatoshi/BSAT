@@ -1,5 +1,5 @@
 # BSAT
-## Blackbaud Student Account Terminal
+## Blackbaud Student Analyzer Tool
 
 This project is a Blackbaud Student tool to let you interact with Blackbaud with Selenium with CLI interfaces, a Discord bot, and website. If your school or institution uses Blackbaud, this is a must-fork!
 

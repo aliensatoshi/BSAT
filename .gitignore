@@ -136,3 +136,7 @@ config.json
 
 #Exclude random_id file
 random_id.txt
+
+#Exclude json files
+schedule-*.json
+current_id.txt
