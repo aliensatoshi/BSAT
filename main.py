@@ -2,6 +2,7 @@
 #THAT MEANS IT IS LIKELY THIS WILL NOT WORK UNTIL LAUNCH.
 
 #import selenium
+from unicodedata import name
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -49,7 +50,9 @@ def login():
     #if url variable contains speedbump
     if "speedbump" in url:
         print("Google Speedbump Detected!")
+        os.system("cls")
         driver.find_element(By.XPATH, '//*[@id="view_container"]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span').click() #Click "This is me" on Google Speedbump page
+        os.system("cls")
         print("Google Speedbump Bypassed!")
 
 
@@ -61,28 +64,32 @@ def scrapeData():
     day = day[0]
     #convert the string to an integer
     day = int(day)
+
+    global name
+
+    name = driver.find_element(By.XPATH, '//*[@id="account-nav"]/span[1]/span').text;
     
     table_id = driver.find_element(By.XPATH, '//*[@id="accordionSchedules"]')
     rows = table_id.find_elements(By.TAG_NAME, "tr") # get all of the rows in the table
 
     #generate a random number between 1 and 9999999999999999999
-    random_id = random.randint(1, 9999999999999999999)
+    random_id_num = random.randint(1, 9999999999999999999)
 
-    #open usedids.txt file
-    usedids = open("usedids.txt", "r")
-    #if random_id is in usedids.txt
-    if str(random_id) in usedids.read():
-        #repeat the process of generating a random number until it is not in usedids.txt
-        while str(random_id) in usedids.read():
-            random_id = random.randint(1, 9999999999999999999)
-    #add the random_id to usedids.txt
-    usedids = open("usedids.txt", "a")
-    usedids.write(str(random_id) + "\n")
-    #close usedids.txt file
-    usedids.close()
+    #open random_id.txt file
+    random_id = open("random_id.txt", "r")
+    #if random_id is in random_id.txt
+    if str(random_id_num) in random_id.read():
+        #repeat the process of generating a random number until it is not in random_id.txt
+        while str(random_id_num) in random_id.read():
+            random_id_num = random.randint(1, 9999999999999999999)
+    #add the random_id to random_id.txt
+    random_id = open("random_id.txt", "a")
+    random_id.write(str(random_id_num) + "\n")
+    #close random_id.txt file
+    random_id.close()
 
     #create a new file called schedule.json
-    with open(f'schedule-{random_id}.json', 'w') as f:
+    with open('schedule-' + str(random_id_num) + '.json', 'w') as f:
         #create a new array
         schedule = []
         id = -1
@@ -137,9 +144,47 @@ def scrapeData():
         #write the schedule array to the schedule.json file
         json.dump(schedule, f, indent=4)
 
+        driver.close()
+
+        os.system("clear")
+
+def logo():                                                         
+    print(" .S_SSSs      sSSs   .S_SSSs    sdSS_SSSSSSbs  ")
+    print(".SS~SSSSS    d%%SP  .SS~SSSSS   YSSS~S%SSSSSP  ")
+    print("S%S   SSSS  d%S'    S%S   SSSS       S%S       ")
+    print("S%S    S%S  S%|     S%S    S%S       S%S       ")
+    print("S%S SSSS%P  S&S     S%S SSSS%S       S&S       ")
+    print("S&S  SSSY   Y&Ss    S&S  SSS%S       S&S       ")
+    print("S&S    S&S  `S&&S   S&S    S&S       S&S       ")
+    print("S&S    S&S    `S*S  S&S    S&S       S&S       ")
+    print("S*S    S&S     l*S  S*S    S&S       S*S       ")
+    print("S*S    S*S    .S*P  S*S    S*S       S*S       ")
+    print("S*S SSSSP   sSS*S   S*S    S*S       S*S       ")
+    print("S*S  SSY    YSS'    SSS    S*S       S*S       ")
+    print("SP                         SP        SP        ")
+    print("Y                          Y         Y         ")
+    print("")
+
 login()
-time.sleep(5.5)
-scrapeData()
+logo()
+print (f"Welcome to BSAT, {name}!")
+print("")
+print("What would you like to do?")
+print("")
+print("1. View Schedule")
+print("2. View Today's Attendance")
+#print("3. View Grades")
+#print("4. Calculate GPA")
+#print("5. Exit")
+print("")
+choice = input("Enter your choice: ")
+
+if choice == "1":
+    scrapeData()
+    #view_schedule()
+
+
+
 
 #items = []
 
